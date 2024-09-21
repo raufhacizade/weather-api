@@ -1,3 +1,7 @@
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Microsoft.Extensions.Azure;
+using Microsoft.Extensions.Configuration.AzureKeyVault;
 using WeatherAPI.Clients;
 using WeatherAPI.Clients.Interfaces;
 using WeatherAPI.Services;
@@ -7,7 +11,7 @@ namespace WeatherAPI.Configuration;
 
 public static class DependencyConfig
 {
-    public static void ConfigureDependencies(this IServiceCollection services)
+    public static void ConfigureDependencies(this IServiceCollection services, ConfigurationManager configuration, SecretClient secretClient)
     {
         services.AddHttpClient<IMeteoApiClient, MeteoApiClient>(client =>
         {
@@ -15,15 +19,15 @@ public static class DependencyConfig
         });
         services.AddHttpClient<IOpenWeatherApiClient, OpenWeatherApiClient>(client =>
         {
-            client.BaseAddress = new Uri("https://api.openweathermap.org/");
+            client.BaseAddress = new Uri($"https://api.openweathermap.org/?appid={secretClient.GetSecret("OpenWeatheApiKey").Value.Value}");
         });
         services.AddHttpClient<IVisualCrossingApiClient, VisualCrossingApiClient>(client =>
         {
-            client.BaseAddress = new Uri("https://weather.visualcrossing.com/");
+            client.BaseAddress = new Uri($"https://weather.visualcrossing.com/?key={secretClient.GetSecret("VisualCrossingApiKey").Value.Value}");
         });
         services.AddHttpClient<ITomorrowApiClient, TomorrowApiClient>(client =>
         {
-            client.BaseAddress = new Uri("https://api.tomorrow.io/");
+            client.BaseAddress = new Uri($"https://api.tomorrow.io/?apikey={secretClient.GetSecret("TomorrowApiKey").Value.Value}");
         });
         services.AddScoped<IGeoLocationService, GeoLocationService>();
         services.AddScoped<IWeatherService, WeatherService>();

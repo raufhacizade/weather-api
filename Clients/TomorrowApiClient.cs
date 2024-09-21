@@ -16,20 +16,23 @@ public class TomorrowApiClient(HttpClient httpClient, IMapper mapper, ILogger<To
     {
         try
         {
-            var uri = _httpClient.BaseAddress + $"v4/weather/realtime?location={cityName} {countryName}";
+            var query = $"location={cityName} {countryName}";
+            var baseAddress = _httpClient.BaseAddress;
+            var uri = $"{baseAddress?.Scheme}://{baseAddress?.Host}/v4/weather/realtime{baseAddress?.Query}&{query}";
 
-            _logger.LogInformation($"Fetching data from {uri}");
-            var responseDto = await GetData<TomorrowResponseDto>($"{uri}&apikey={_apiKey}");
+            _logger.LogInformation($"Fetching data from {baseAddress?.Host} with {query} query parameters");
+            var responseDto = await GetData<TomorrowResponseDto>(uri);
             return _mapper.Map<WeatherModel>(responseDto);
         }
         catch (HttpRequestException httpEx)
         {
             _logger.LogError(httpEx, $"Failed to retrieve current weather data from Tomorrow Api,\n{httpEx.Message}");
-            throw new ExternalApiRequestException();;
+            throw new ExternalApiRequestException();
+            ;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex,"An unexpected error occurred while fetching from Tomorrow API");
+            _logger.LogError(ex, "An unexpected error occurred while fetching from Tomorrow API");
             throw;
         }
     }
