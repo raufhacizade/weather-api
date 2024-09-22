@@ -4,5 +4,5 @@ namespace WeatherAPI.Clients.Interfaces;
 
 public interface ITomorrowApiClient
 {
-    Task<WeatherModel?> FetchTodayWeatherByCity(string cityName, string countryName);
+    Task<WeatherModel?> FetchTodayWeatherByCity(double latitude, double longitude);
 }

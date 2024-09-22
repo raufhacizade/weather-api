@@ -12,13 +12,13 @@ public class TomorrowApiClient(HttpClient httpClient, IMapper mapper, ILogger<To
 {
     private readonly string _apiKey = "eAVOps7mSnmFjloqbk8YklN2bMiG5qy2";
 
-    public async Task<WeatherModel?> FetchTodayWeatherByCity(string cityName, string countryName)
+    public async Task<WeatherModel?> FetchTodayWeatherByCity(double latitude, double longitude)
     {
         try
         {
-            var query = $"location={cityName} {countryName}";
+            var query = $"location={latitude},{longitude}";
             var baseAddress = _httpClient.BaseAddress;
-            var uri = $"{baseAddress?.Scheme}://{baseAddress?.Host}/v4/weather/realtime{baseAddress?.Query}&{query}";
+            var uri = $"{baseAddress?.Scheme}://{baseAddress?.Host}/v4/weather/forecast{baseAddress?.Query}&{query}";
 
             _logger.LogInformation($"Fetching data from {baseAddress?.Host} with {query} query parameters");
             var responseDto = await GetData<TomorrowResponseDto>(uri);
