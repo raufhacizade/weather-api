@@ -15,19 +15,19 @@ public static class DependencyConfig
     {
         services.AddHttpClient<IMeteoApiClient, MeteoApiClient>(client =>
         {
-            client.BaseAddress = new Uri("https://archive-api.open-meteo.com/");
+            client.BaseAddress = new Uri(configuration.GetSection("Clients:Meteo:BaseAddress").Value!);
         });
         services.AddHttpClient<IOpenWeatherApiClient, OpenWeatherApiClient>(client =>
         {
-            client.BaseAddress = new Uri($"https://api.openweathermap.org/?appid={secretClient.GetSecret("OpenWeatheApiKey").Value.Value}");
+            client.BaseAddress = new Uri($"{configuration.GetSection("Clients:OpenWeather:BaseAddress").Value!}/?appid={secretClient.GetSecret("OpenWeatheApiKey").Value.Value}");
         });
         services.AddHttpClient<IVisualCrossingApiClient, VisualCrossingApiClient>(client =>
         {
-            client.BaseAddress = new Uri($"https://weather.visualcrossing.com/?key={secretClient.GetSecret("VisualCrossingApiKey").Value.Value}");
+            client.BaseAddress = new Uri($"{configuration.GetSection("Clients:VisualCrossing:BaseAddress").Value!}?key={secretClient.GetSecret("VisualCrossingApiKey").Value.Value}");
         });
         services.AddHttpClient<ITomorrowApiClient, TomorrowApiClient>(client =>
         {
-            client.BaseAddress = new Uri($"https://api.tomorrow.io/?apikey={secretClient.GetSecret("TomorrowApiKey").Value.Value}");
+            client.BaseAddress = new Uri($"{configuration.GetSection("Clients:Tomorrow:BaseAddress").Value!}?apikey={secretClient.GetSecret("TomorrowApiKey").Value.Value}");
         });
         services.AddScoped<IGeoLocationService, GeoLocationService>();
         services.AddScoped<IWeatherService, WeatherService>();
