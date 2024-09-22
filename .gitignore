@@ -42,6 +42,7 @@ x64/
 *.log
 *.vspscc
 *.vssscc
+.DS_Store
 .builds
 
 # Visual C++ cache files

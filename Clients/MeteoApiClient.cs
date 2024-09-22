@@ -15,12 +15,13 @@ public class MeteoApiClient(HttpClient httpClient, IMapper mapper, ILogger<Meteo
         var dataStr = date.ToString("yyyy-MM-dd");
 
         // add latitude, longitude and the date
-        string query = $"latitude={Math.Round(latitude, 2)}&longitude={Math.Round(longitude, 2)}&start_date={dataStr}&end_date={dataStr}";
+        string query =
+            $"latitude={Math.Round(latitude, 2)}&longitude={Math.Round(longitude, 2)}&start_date={dataStr}&end_date={dataStr}";
 
         // add other query params
         query +=
-            $"&daily=temperature_2m_mean,apparent_temperature_mean,wind_speed_10m_max,rain_sum,wind_speed_10m_max,wind_direction_10m_dominant";
-        
+            "&daily=temperature_2m_mean,apparent_temperature_mean,wind_speed_10m_max,rain_sum,wind_speed_10m_max,wind_direction_10m_dominant";
+
         try
         {
             var uri = $"{_httpClient.BaseAddress}v1/archive?{query}";
