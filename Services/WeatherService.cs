@@ -16,20 +16,20 @@ public class WeatherService(
 {
     private readonly IMemoryCache _cache = cache;
 
-    public async Task<WeatherModel?> GetTodayWeatherInfoAsync(string cityName, string countryName)
+    public async Task<WeatherModel?> GetTodayWeatherInfoAsync(double latitude, double longitude)
     {
         DateTime now = DateTime.Now;
         var date = DateOnly.FromDateTime(now);
-        if (_cache.TryGetValue((cityName, countryName, date), out WeatherModel? cachedWeatherData))
+        if (_cache.TryGetValue((latitude, latitude, date), out WeatherModel? cachedWeatherData))
         {
             return cachedWeatherData;
         }
         
-        var todayWeatherData = await tomorrowApiClient.FetchTodayWeatherByCity(cityName, countryName);
+        var todayWeatherData = await tomorrowApiClient.FetchTodayWeatherByCity(latitude, latitude);
         if (todayWeatherData != null)
         {
             TimeSpan remainingTimeOfTheDay = now.Date.AddDays(1) - now;
-            _cache.Set((cityName, countryName, date), todayWeatherData, remainingTimeOfTheDay);
+            _cache.Set((latitude, latitude, date), todayWeatherData, remainingTimeOfTheDay);
         }
 
         return todayWeatherData;
