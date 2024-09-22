@@ -27,8 +27,8 @@ public class MeteoApiClient(HttpClient httpClient, IMapper mapper, ILogger<Meteo
             var uri = $"{_httpClient.BaseAddress}v1/archive?{query}";
 
             _logger.LogInformation($"Fetching data from {uri}");
-            var responseDto = await GetData<List<MeteoResponseDto>>($"{uri}");
-            return _mapper.Map<WeatherModel>(responseDto[0]);
+            var responseDto = await GetData<MeteoResponseDto>($"{uri}");
+            return _mapper.Map<WeatherModel>(responseDto);
         }
         catch (HttpRequestException httpEx)
         {

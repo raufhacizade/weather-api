@@ -57,8 +57,12 @@ public class WeatherController(IMapper mapper, IWeatherService weatherService, I
         if (!ModelState.IsValid) return BadRequest(ModelState);
         if (await geoLocationService.GetLatitudeAndLongitudeAsync(request.City, request.Country) == null)
             throw new InValidCityOrCountryName();
+        
+        var location = await geoLocationService.GetLatitudeAndLongitudeAsync(request.City, request.Country);
+        if (location == null)
+            throw new InValidCityOrCountryName();
 
-        var weatherData = await weatherService.GetTodayWeatherInfoAsync(request.City, request.Country);
+        var weatherData = await weatherService.GetTodayWeatherInfoAsync(location.Latitude, location.Longitude);
         return mapper.Map<WeatherDto>(weatherData);
     }
 }
