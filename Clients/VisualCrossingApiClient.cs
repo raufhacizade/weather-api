@@ -17,11 +17,13 @@ public class VisualCrossingApiClient(HttpClient httpClient, IMapper mapper, ILog
     {
         try
         {
-            var uri = _httpClient.BaseAddress + "VisualCrossingWebServices/rest/services/timeline/";
-            uri += $"{cityName},{countryName}/{date.ToString("yyyy-MM-dd")}";
+            var path =
+                $"VisualCrossingWebServices/rest/services/timeline/{cityName},{countryName}/{date.ToString("yyyy-MM-dd")}";
+            var baseAddress = _httpClient.BaseAddress;
+            var uri = $"{baseAddress?.Scheme}://{baseAddress?.Host}/{path}/{baseAddress?.Query}";
 
-            _logger.LogInformation($"Fetching data from {uri}");
-            var responseDto = await GetData<VisualCrossingResponseDto>($"{uri}?key={_apiKey}");
+            _logger.LogInformation($"Fetching data from {baseAddress?.Host}");
+            var responseDto = await GetData<VisualCrossingResponseDto>(uri);
             return _mapper.Map<DetailedWeatherModel>(responseDto);
         }
         catch (HttpRequestException httpEx)

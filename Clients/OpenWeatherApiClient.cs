@@ -10,16 +10,16 @@ namespace WeatherAPI.Clients;
 public class OpenWeatherApiClient(HttpClient httpClient, IMapper mapper, ILogger<OpenWeatherApiClient> logger)
     : BaseApiClient(httpClient, mapper, logger), IOpenWeatherApiClient
 {
-    private readonly string _apiKey = "a0a675610cf629edd2eead4e62063da4";
-
     public async Task<GeoLocationModel?> FetchLatitudeAndLongitudeAsync(string cityName, string countryName)
     {
         try
         {
-            var url = _httpClient.BaseAddress + $"geo/1.0/direct?q={cityName},{countryName}&limit=1";
+            var query = $"q={cityName},{countryName}&limit=1";
+            var baseAddress = _httpClient.BaseAddress;
+            var uri = $"{baseAddress?.Scheme}://{baseAddress?.Host}/geo/1.0/direct{baseAddress?.Query}&{query}";
 
-            _logger.LogInformation($"Fetching data from {url}");
-            var locationData = await GetData<List<OpenWeatherGeoLocationDto>?>($"{url}&appid={_apiKey}");
+            _logger.LogInformation($"Fetching data from {baseAddress?.Host} with {query} query parameters");
+            var locationData = await GetData<List<OpenWeatherGeoLocationDto>?>(uri);
             if (locationData != null && locationData.Count > 0)
             {
                 var firstLocation = locationData[0];
@@ -29,7 +29,8 @@ public class OpenWeatherApiClient(HttpClient httpClient, IMapper mapper, ILogger
         catch (HttpRequestException httpEx)
         {
             _logger.LogError(httpEx, $"Failed to retrieve location data from OpenWeatherMap Api,\n{httpEx.Message}");
-            throw new ExternalApiRequestException();;
+            throw new ExternalApiRequestException();
+            ;
         }
         catch (Exception ex)
         {
