@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "5322060e-8b69-4ce8-80c4-b992ecb1162a",
+		"name": "WeatherApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10312713"
+	},
+	"item": [
+		{
+			"name": "/api/weather/detailed",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://weatherwise-c3cfccdzcpavcegn.northeurope-01.azurewebsites.net/api/weather/archived?city=budapest&country=hungary&date=2020-03-20",
+					"protocol": "https",
+					"host": [
+						"weatherwise-c3cfccdzcpavcegn",
+						"northeurope-01",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"weather",
+						"archived"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "budapest"
+						},
+						{
+							"key": "country",
+							"value": "hungary"
+						},
+						{
+							"key": "date",
+							"value": "2020-03-20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/weather/today",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://weatherwise-c3cfccdzcpavcegn.northeurope-01.azurewebsites.net/api/weather/today?city=budapest&country=hungary&date=2020-03-20",
+					"protocol": "https",
+					"host": [
+						"weatherwise-c3cfccdzcpavcegn",
+						"northeurope-01",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"weather",
+						"today"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "budapest"
+						},
+						{
+							"key": "country",
+							"value": "hungary"
+						},
+						{
+							"key": "date",
+							"value": "2020-03-20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/weather/archived",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://weatherwise-c3cfccdzcpavcegn.northeurope-01.azurewebsites.net/api/weather/archived?city=budapest&country=hungary&date=2020-03-20",
+					"protocol": "https",
+					"host": [
+						"weatherwise-c3cfccdzcpavcegn",
+						"northeurope-01",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"weather",
+						"archived"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "budapest"
+						},
+						{
+							"key": "country",
+							"value": "hungary"
+						},
+						{
+							"key": "date",
+							"value": "2020-03-20"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/geolocation",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://weatherwise-c3cfccdzcpavcegn.northeurope-01.azurewebsites.net/api/geolocation/today?city=budapest&country=hungary",
+					"protocol": "https",
+					"host": [
+						"weatherwise-c3cfccdzcpavcegn",
+						"northeurope-01",
+						"azurewebsites",
+						"net"
+					],
+					"path": [
+						"api",
+						"geolocation",
+						"today"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "budapest"
+						},
+						{
+							"key": "country",
+							"value": "hungary"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
